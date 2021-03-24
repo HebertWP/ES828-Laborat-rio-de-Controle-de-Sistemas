@@ -6,24 +6,24 @@ R3 = 100e3
 R4 = 220e3
 R5 = 100e3
 R6 = 470e3
-R7 = 1e3
+R7 = 1e6
 C1 = 0.1e-6
 C2 = 0.1e-6
 C3 = 0.1e-6
 
-k1 = R2/R1
+k1 = -R2/R1
 t1 = 0
 G1 = tf(k1,[t1,1])
 
-k2 = R4/R3
+k2 = -R4/R3
 t2 = R4*C1
 G2 = tf(k2,[t2,1])
 
-k3 = R6/R5
+k3 = -R6/R5
 t3 = R6*C2
 G3 = tf(k3,[t3,1])
 
-k4 = 1/(R7*C3)
+k4 = -1/(R7*C3)
 G4 = tf(k4,[1,0])
 
 G=G1*G2*G3*G4
@@ -31,15 +31,16 @@ G=G1*G2*G3*G4
 opts = bodeoptions('cstprefs');
 opts.Grid = 'on';
 opts.MagScale = 'linear';
-bodeplot(G1,G2,G3,G4,G,opts);
-h=legend('G1','G2','G3','G4','G');
+margin(G);
+h=legend('G');
 saveas(h,'./data/bode.png');
 
+figure
 dt = 1e-3;
 t0 = 0;
 t1 = 4;
 t = t0:dt:t1;
-u = (t >= 0) - (t >= 0.5) + (t >= 1) - (t >= 1.5) + (t >= 2) - (t >= 2.5) + (t >= 3) - (t >= 3.5);
+u = (t >= 0) - (t >= 1) + (t >= 2) - (t >= 3) + (t >= 4);
 p=plot(t,u);
 xlabel('t[s]');
 ylabel('u(t)');
@@ -75,5 +76,6 @@ xlabel('t[s]');
 p=legend('y4','y3');
 %ylim([-0.2,2.2]);
 saveas(p,'./data/y4.png');
+
 close all;
 exit()
