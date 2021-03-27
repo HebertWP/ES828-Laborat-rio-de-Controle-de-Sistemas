@@ -1,4 +1,4 @@
-clc; close all; clear all;
+begin()
 
 R1 = 100e3
 R2 = 10e3
@@ -28,6 +28,7 @@ G4 = tf(k4,[1,0])
 
 G=G1*G2*G3*G4
 
+figure('visible','off');
 opts = bodeoptions('cstprefs');
 opts.Grid = 'on';
 opts.MagScale = 'linear';
@@ -35,7 +36,6 @@ margin(G);
 h=legend('G');
 saveas(h,'./data/bode.png');
 
-figure
 dt = 1e-3;
 t0 = 0;
 t1 = 4;
