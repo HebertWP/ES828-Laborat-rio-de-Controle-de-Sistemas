@@ -1,6 +1,8 @@
 function begin()
     clc; close all; clear all;
-    if not(isfolder('data'))
+    if isfolder('data')
+        delete('./data/*')
+    else
         mkdir('data')
     end
 end
