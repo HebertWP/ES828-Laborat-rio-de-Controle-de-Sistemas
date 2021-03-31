@@ -1,5 +1,6 @@
 function generateInputPlots(t,inputSignal,outputSignal,chartTitle,savefile)
-    f=figure('visible','off');
+    %f=figure('visible','off');
+    f=figure()
     p=plot(t,outputSignal,t,inputSignal,'--r');
     title(chartTitle)
     legend('output','input')
