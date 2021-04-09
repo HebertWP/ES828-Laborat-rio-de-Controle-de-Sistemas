@@ -5,8 +5,10 @@ dt=2e-3;
 [t3,input3,output3] = getData('./Dados para identificacao/est_03.txt',dt);
 
 k=-0.982092;
-tal2=0.011119;
+tal2=0.0087;
 output3=output3/k;
+figure
+plot(t3,output3)
 a=0;
 for i=0:3
     a= a + output3(1,int16(tal2/dt)+i*int16(2/dt));
