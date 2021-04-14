@@ -39,46 +39,61 @@ erroKi = posibleKi-Ki;
 erroKp = posibleKp-Kp;
 erroKd = posibleKd-Kd;
 
-erroTal = abs(erroTal);
-erroKi = abs(erroKi);
-erroKp = abs(erroKp);
-erroKd = abs(erroKd);
-erro=erroTal+erroKp+erroKi+erroKd;
-
-num=0;
 
 for i=1:50
     for y=1:50
         for z=1:50
+            if(erroTal(i,y,z)<0)
+                erroTal(i,y,z)=-erroTal(i,y,z);
+            end
+            if(erroKi(i,y,z)<0)
+                erroKi(i,y,z)=-erroKi(i,y,z);
+            end
+            if(erroKp(i,y,z)<0)
+                erroKp(i,y,z)=-erroKp(i,y,z);
+            end
+            if(erroKd(i,y,z)<0)
+                erroKd(i,y,z)=-erroKd(i,y,z);
+            end            
+        end
+    end
+end
+aux=0;
+erro=erroTal+erroKp+erroKi+erroKd;
+for i=1:50
+    for y=1:50
+        for z=1:50
             data(i,y,z).erro=erro(i,y,z);
-            data(i,y,z).erroKi=erroKi(i,y,z);
-            data(i,y,z).erroKp=erroKp(i,y,z);
-            data(i,y,z).erroKd=erroKd(i,y,z);
-            data(i,y,z).erroTal=erroTal(i,y,z);
-   
             data(i,y,z).R1=VR1(1,i);
             data(i,y,z).R2=VR2(1,y);
             data(i,y,z).R3=VR3(1,z);
-            
             data(i,y,z).soma=1e15;
-            data(i,y,z).maximo=1e15;
-            
-            if(data(i,y,z).erro<1.8 && data(i,y,z).erroKp < 1 )%{&& data(i,y,z).erroKd < 0.5 && data(i,y,z).erroKi < 0.2%})
+            if(data(i,y,z).erro<1.7)
                 R1 = data(i,y,z).R1;
                 R2 = data(i,y,z).R2;
                 R3 = data(i,y,z).R3;
                 out=sim('Simulation');
                 aux=out.yout{1}.Values.Data;
                 soma=sum(aux);
-                maximo=max(aux);
-                data(i,y,z).maximo=maximo;
                 data(i,y,z).soma=soma;
-                if(maximo<1.1 && soma < 30)
-                    num=num+1
-                    data(i,y,z)
-                else
-                    disp('ops')
-                end
+                aux=aux+1
+            end
+        end
+    end
+end
+
+for i=1:50
+    for y=1:50
+        for z=1:50
+            if(data(i,y,z).soma<1.7)
+                R1 = data(i,y,z).R1;
+                R2 = data(i,y,z).R2;
+                R3 = data(i,y,z).R3;
+                out=sim('Simulation');
+                aux=out.yout{1}.Values.Data;
+                soma=sum(aux);
+                data(i,y,z).soma=soma;
+                aux=aux+1;
             end
         end
     end
